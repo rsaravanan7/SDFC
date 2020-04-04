@@ -1,4 +1,4 @@
-ublic class EmailManager {
+public class EmailManager {
     // Public method
     public void sendMail(String address, String subject, String body) {
         // Create an email message object
