@@ -1,0 +1,6 @@
+Schema.DescribeFieldResult f= Account.Type.getDescribe();
+List<Schema.PicklistEntry> p = f.getPicklistValues();
+
+for(Schema.PicklistEntry pick : p){
+    System.debug(pick.getLabel());
+}
