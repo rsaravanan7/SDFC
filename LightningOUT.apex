@@ -16,3 +16,10 @@
             });
         </script>
     </apex:page>
+
+
+--------------------------
+APP:
+<aura:application access="GLOBAL" extends="ltng:outApp">  // ltng:outApp -- make this application capable of calling outside LEX
+        <aura:dependency resource="c:ComponentNameBeingUsedfromApp">
+</aura:application>
