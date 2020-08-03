@@ -1,0 +1,37 @@
+Page 1:
+======================
+
+<apex:page controller="Page1SendPostCtrl">
+    <form id="browserpost" method="POST" action="Page2RecievePost">
+        <input type="hidden" name="payloadbase64" value="{!strInputFld}"/>
+        <button type="submit" >
+            Post Submit
+        </button>        
+    </form>
+</apex:page>
+
+======================
+APEX page
+======================
+public class Page1SendPostCtrl {
+    public string strInputFld {set;}
+    
+    public string getStrInputFld(){
+        return 'test is for post send and receive';
+    }
+    public PageReference redPost(){
+        PageReference rPost = Page.Page2RecievePost;
+        rPost.setRedirect(true);
+        return rPost;
+    }
+}
+======================
+Page 2:
+======================
+<apex:page >
+    <apex:form >
+    	this what we get from POST request -
+        "{!$CurrentPage.parameters.payloadbase64}"
+    </apex:form>
+</apex:page>
+======================
