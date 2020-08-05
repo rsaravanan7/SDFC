@@ -1,0 +1,63 @@
+Component Event
+=================
+<!--c:ceEvent-->
+<aura:event type="COMPONENT">
+    <aura:attribute name="message" type="String"/>
+</aura:event>
+
+Notifier Component
+==================
+<!--c:ceNotifier-->
+<aura:component>
+    <aura:registerEvent name="cmpEvent" type="c:ceEvent"/>
+
+    <h1>Simple Component Event Sample</h1>
+    <p><lightning:button
+        label="Click here to fire a component event"
+        onclick="{!c.fireComponentEvent}" />
+    </p>
+</aura:component>
+
+/* ceNotifierController.js */
+{
+    fireComponentEvent : function(cmp, event) {
+        // Get the component event by using the
+        // name value from aura:registerEvent
+        var cmpEvent = cmp.getEvent("cmpEvent");
+        cmpEvent.setParams({
+            "message" : "A component event fired me. " +
+            "It all happened so fast. Now, I'm here!" });
+        cmpEvent.fire();
+    }
+}
+
+Handler Component
+==================
+
+<!--c:ceHandler-->
+<aura:component>
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <aura:attribute name="numEvents" type="Integer" default="0"/>
+
+    <!-- Note that name="cmpEvent" in aura:registerEvent in ceNotifier.cmp -->
+    <aura:handler name="cmpEvent" event="c:ceEvent" action="{!c.handleComponentEvent}"/>
+
+    <!-- handler contains the notifier component -->
+    <c:ceNotifier />
+    
+    <p>{!v.messageFromEvent}</p>
+    <p>Number of events: {!v.numEvents}</p>
+
+</aura:component>
+
+/* ceHandlerController.js */
+{
+    handleComponentEvent : function(cmp, event) {
+        var message = event.getParam("message");
+
+        // set the handler attributes based on event data
+        cmp.set("v.messageFromEvent", message);
+        var numEventsHandled = parseInt(cmp.get("v.numEvents")) + 1;
+        cmp.set("v.numEvents", numEventsHandled);
+    }
+}
