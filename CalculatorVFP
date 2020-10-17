@@ -5,8 +5,8 @@
 <apex:page controller="CalculatorOne">
     Welcome! Hello World!!
     <apex:form id="frmCal">
-        <apex:actionFunction name="test" action="{!calAddResult}" reRender="go" />                     
-        <apex:actionFunction name="test" action="{!calSubResult}" reRender="go" />                     
+        <!--  <apex:actionFunction name="test" action="{!calAddResult}" reRender="go" />                     
+        <apex:actionFunction name="test" action="{!calSubResult}" reRender="go" />     -->                
 
         <apex:pageBlock>
             <apex:pageBlockSection columns="1">
