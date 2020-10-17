@@ -1,0 +1,55 @@
+-- Page to calculate basic operations using VFP, Apex, ActionFucntion
+
+-- Visualforce Page
+
+<apex:page controller="CalculatorOne">
+    Welcome! Hello World!!
+    <apex:form id="frmCal">
+        <apex:actionFunction name="test" action="{!calAddResult}" reRender="go" />                     
+        <apex:actionFunction name="test" action="{!calSubResult}" reRender="go" />                     
+
+        <apex:pageBlock>
+            <apex:pageBlockSection columns="1">
+               <apex:inputText label="First Number" value="{!fNumber}"></apex:inputText>
+                <apex:inputText label="Second Number" value="{!sNumber}"></apex:inputText>
+            </apex:pageBlockSection>
+              <apex:pageBlockSection>
+                  <apex:pageBlockSectionItem>
+                  	<apex:commandButton value="Add" action="{!calAddResult}" />                           
+                  	<apex:commandButton value="Subtract" action="{!calSubResult}" />                                  
+                  </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1">
+				<apex:outputText label="Result" value="{!result}"></apex:outputText>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
+
+-- APEX Page
+
+public with sharing class CalculatorOne {
+
+    public integer fNumber{get;set;}                       
+    public integer sNumber{get;set;}
+    public integer result {get;set;}        
+    
+    public CalculatorOne(){
+        this.fNumber = 0;
+        this.sNumber = 0;
+    }
+    
+    public PageReference calAddResult()
+    {
+        result = fNumber + sNumber;
+        return null;
+    }
+    public PageReference calSubResult()
+    {
+        result = fNumber - sNumber;
+        return null;
+    }
+}
+
+----------------------------------
