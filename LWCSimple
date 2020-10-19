@@ -1,0 +1,82 @@
+-- Call from Aura Application
+
+<aura:application extends="force:slds">
+    <c:helloWorldOne/>
+</aura:application>	
+
+-- HelloWorldOne.html
+
+<template>
+    <div class="slds-m-around_large">
+        Hello World! Welcome to LWC!
+        <p>
+            {messageFromJS}
+        </p>
+        <p>
+            <lightning-input label="Type Here" required value={inputText} onchange={handleClick}></lightning-input>
+         </p>
+         <p>{inputText}</p>
+         <p>
+             <lightning-button label="Click Me" value="ClickMe" onclick={handleButton}></lightning-button>
+         </p>
+    </div>
+    <div class="slds-m-around_large">
+        <template for:each={result} for:item="contact">
+            <p key={contact.Id}>
+                {contact.Id}
+            </p>
+            
+        </template>
+    </div>
+
+</template>
+
+-- HelloWorldOne.js
+
+import { LightningElement, api, wire} from 'lwc';
+import getContactList from '@salesforce/apex/CallClassFromLWC.getContactList';
+import getAccoutDetails from '@salesforce/apex/CallClassFromLWC.getAccoutDetails';
+
+export default class HelloWorldOne extends LightningElement {
+    messageFromJS ='This is message from JS';
+    inputText ='';
+    @api message = 'This is a simple message';
+    result;
+    error;
+
+    handleClick(event){
+        this.inputText = event.target.value;
+        window.console.log(event.target);
+    }
+
+
+    @wire(getContactList, {})
+    wiredDate ({error, data}) {
+        if (error) {
+            // TODO: Error handling
+            this.error = error;
+            this.data = undefined;
+            window.console.log('Error details', error);
+        } else if (data) {
+            // TODO: Data handling
+            this.result = data;
+            this.error = undefined;
+            window.console.log('Contact Records', data);
+        }
+    }
+
+    handleButton(){
+        alert('Button Click');
+
+        getAccoutDetails()
+            .then(result => {
+                this.result = result;
+                this.error = undefined;
+            })
+            .catch(error => {
+                // TODO Error handling
+                this.error = error;
+                this.result = undefined;
+            });
+    }    
+}
